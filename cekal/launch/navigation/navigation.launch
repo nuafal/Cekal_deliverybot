@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<launch>
+  <!-- Arguments -->
+  <arg name="map_name" default="engin2"/>
+  <arg name="map_file" default="$(find cekal)/maps/$(arg map_name).yaml"/>
+  <!-- <arg name="x_pos" default="4.392"/>
+  <arg name="y_pos" default="-5.964"/>
+  <arg name="z_pos" default="0.677"/> -->
+  <arg name="x_pos" default="0.761"/>
+  <arg name="y_pos" default="0.465"/>
+  <arg name="z_pos" default="0.006"/>
+ 
+  <arg name="cmd_vel_topic" default="/cmd_vel"/>
+  <arg name="odom_topic" default="/odom"/>
+  <arg name="use_dwa" default="true"/>
+  <arg name="open_rviz" default="false"/>
+  <arg name="rvizconfig" default="navigation/cekal_navigation"/>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find cekal)/launch/navigation/amcl.launch">
+    <arg name="initial_pose_x" value="$(arg x_pos)"/>
+    <arg name="initial_pose_y" value="$(arg y_pos)"/>
+    <arg name="initial_pose_a" value="$(arg z_pos)"/>
+  </include>
+
+   <!-- move_base -->
+  <include file="$(find cekal)/launch/navigation/move_base.launch">
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    <arg name="odom_topic" value="$(arg odom_topic)"/>
+    <!-- <arg name="use_teb" value="$(arg use_teb)"/> -->
+  </include>
+
+
+</launch>

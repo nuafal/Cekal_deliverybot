@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="hostname" default="192.168.0.24"/>
+    <arg name="cloud_topic" default="cloud"/>
+    <arg name="frame_id" default="laser"/>
+    <node name="sick_tim_7xx" pkg="sick_scan" type="sick_generic_caller" respawn="false">
+        <!--<param name="robot_description" command="$(find xacro)/xacro.py '$(find sick_scan)/urdf/example.urdf.xacro'" />-->
+        <param name="scanner_type" type="string" value="sick_tim_7xx"/>
+        
+        <!-- -65° -->
+        <param name="min_ang" type="double" value="-2.35619449"/>
+        <!-- 65° -->
+        <param name="max_ang" type="double" value="2.35619449"/>
+
+        <param name="use_binary_protocol" type="bool" value="true"/>
+        <param name="range_max" type="double" value="100.0"/>
+        <param name="intensity" type="bool" value="True"/>
+        <param name="hostname" type="string" value="$(arg hostname)"/>
+        <param name="cloud_topic" type="string" value="$(arg cloud_topic)"/>
+        <param name="frame_id" type="str" value="$(arg frame_id)"/>
+        <param name="port" type="string" value="2112"/>
+        <param name="timelimit" type="int" value="5"/>
+        <param name="start_services" type="bool" value="True"/> <!-- start ros service for cola commands -->
+        <param name="activate_lferec" type="bool" value="True"/> <!-- activate field monitoring by lferec messages -->
+        <param name="activate_lidoutputstate" type="bool" value="True"/> <!-- activate field monitoring by lidoutputstate messages -->
+        <param name="activate_lidinputstate" type="bool" value="True"/> <!-- activate field monitoring by lidinputstate messages -->
+        <param name="min_intensity" type="double" value="0.0"/> <!-- Set range of LaserScan messages to infinity, if intensity < min_intensity (default: 0) -->
+        <remap from="scan" to ="/scan_unfiltered"/>
+    </node>
+
+   <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.42 0 0.19 0 0 0  /base_link /laser  200"/>
+
+</launch>

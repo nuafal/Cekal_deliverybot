@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<launch>
+
+<include file="$(find cekal)/launch/base/arduino.launch" />
+
+<include file="$(find cekal)/launch/base/lidar.launch" />
+
+<!-- <include file="$(find cekal)/launch/base/imu.launch" /> -->
+
+<include file="$(find cekal)/launch/base/scan_matcher.launch" />
+
+<include file="$(find cekal)/launch/base/laserfilter.launch" />
+
+<include file="$(find cekal)/launch/base/odom.launch" />
+
+<include file="$(find cekal)/launch/base/robot_localization.launch" />
+
+<!-- <include file="$(find cekal)/launch/base/ekf_localization.launch" /> -->
+
+<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/>
+
+</launch>
